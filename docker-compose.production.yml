@@ -1,0 +1,20 @@
+networks:
+  app-network:
+    name: app-network
+    driver: bridge
+
+services:
+   kolytics-message-bot:
+      networks:
+        - app-network
+      container_name: kolytics-message-bot
+      restart: always
+      build: .
+      ports:
+        - "3012:3012"
+      command: [ "node", "dist/main.js" ]
+      environment:
+        NODE_ENV: production
+        RABBITMQ_URL: __RABBITMQ_URL__
+        MONGODB_URI: __MONGODB_URI__
+        BOT_TOKEN: __BOT_TOKEN__
